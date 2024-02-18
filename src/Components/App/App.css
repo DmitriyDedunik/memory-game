@@ -1,0 +1,45 @@
+.main-container {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    user-select: none;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 120px); /* 4 столбца по 120px каждый */
+    gap: 10px; /* промежуток между элементами */
+    grid-column: 3;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(8, 130px)
+}
+
+.still-attempts {
+    grid-column: 7/-1;
+    text-align: center;
+    color: #0083FC;
+}
+
+.moves-made {
+    grid-column: 1/3;
+    text-align: center;
+    color: #0083FC;
+}
+
+.count_moves-made {
+    color: #FF5533;
+}
+
+.memory {
+    text-align: center;
+    font-size: 30px;
+    color: #0083FC;
+    margin: 0;
+    grid-column: 1/-1;
+}
