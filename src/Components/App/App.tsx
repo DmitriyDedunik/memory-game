@@ -34,10 +34,10 @@ const pairs = images.map((image, index) => [
     {numberId: index, image, showImage: false, match: false},
     {numberId: index, image, showImage: false, match: false}]);
 // Перемешиваем массив пар
-// const shuffledPairs = pairs.flat().sort(() => Math.random() - 0.5);
+const shuffledPairs = pairs.flat().sort(() => Math.random() - 0.5);
 
 export const App = () => {
-    const [randomPairs, setRandomPairs] = React.useState(pairs.flat());
+    const [randomPairs, setRandomPairs] = React.useState(shuffledPairs);
     const refTimeout = useRef<NodeJS.Timeout | null>(null);
     const [id, setId] = useState<number>(0)
 
@@ -74,9 +74,9 @@ export const App = () => {
         if (countMatches != 2) {
             refTimeout.current = setTimeout(() => {
                 setRandomPairs((prevRandomPairs) => {
-                    return  prevRandomPairs.map((el) => {
+                    return prevRandomPairs.map((el) => {
                         // Закрываем карточки
-                        return !el.match  ? {...el, showImage: false} : el
+                        return !el.match ? {...el, showImage: false} : el
                     });
                 });
             }, 1500);
@@ -93,7 +93,7 @@ export const App = () => {
         setRandomPairs((prevRandomPairs) => {
             const newRandomPairs = prevRandomPairs.map((el, index) => {
                 // Закрываем две предыдущие карточки и открываем только ту, по которой нажали
-                return !el.match  ? {...el, showImage: false} : el
+                return !el.match ? {...el, showImage: false} : el
             });
             newRandomPairs[id].showImage = true;
             return newRandomPairs;

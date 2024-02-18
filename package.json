@@ -1,7 +1,13 @@
 {
   "scripts": {
     "start": "set NODE_ENV=development&& webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "lint": "npm run lint:prettier && npm run lint:eslint",
+    "lint:fix": "npm run lint:prettier:fix && npm run lint:eslint:fix",
+    "lint:eslint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+    "lint:prettier": "prettier --check \".//*.{html,js,ts,vue,json,md,yaml,yml}\"",
+    "lint:prettier:fix": "prettier --write \".//*.{html,js,ts,vue,json,md,yaml,yml}\""
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -15,6 +21,7 @@
     "@types/react-dom": "^18.2.19",
     "babel-loader": "^9.1.3",
     "css-loader": "^6.10.0",
+    "eslint-config-ivan-big-d": "^2.3.0",
     "html-webpack-plugin": "^5.6.0",
     "style-loader": "^3.3.4",
     "ts-loader": "^9.5.1",
@@ -24,3 +31,4 @@
     "webpack-dev-server": "^5.0.2"
   }
 }
+
