@@ -72,8 +72,6 @@ export const App = () => {
     const pairsMatch = randomPairs.filter(
         (pair) => pair.match).length;
 
-    debugger
-
     const shownImageCount = randomPairs.filter(
         (pair) => pair.showImage && !pair.match).length;
 
