@@ -42,10 +42,10 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
-  devServer: {
-    client: {
-      overlay: false,
-    },  }
+  // devServer: {
+  //   client: {
+  //     overlay: false,
+  //   },  }
   // devServer: {
   //   open: true,
   // }
