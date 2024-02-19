@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import {useRef} from 'react';
+import ReactModal from 'react-modal';
 import "./App.css"
 import {SquareItem} from "../SquareItem/SquareItem";
 import image1 from '../../images/image1.svg'
@@ -36,10 +37,14 @@ const pairs = images.map((image, index) => [
 // Перемешиваем массив пар
 const shuffledPairs = pairs.flat().sort(() => Math.random() - 0.5);
 
+let numberMoves: number = 0;
+
 export const App = () => {
+
     const [randomPairs, setRandomPairs] = React.useState(shuffledPairs);
     const refTimeout = useRef<NodeJS.Timeout | null>(null);
-    const [id, setId] = useState<number>(0)
+    const [id, setId] = useState<number>(0);
+    // const [numberMoves, setNumberMoves] = useState<number>(0);
 
     const onClickSquare = (id: number) => {
 
@@ -52,14 +57,30 @@ export const App = () => {
         setId(id)
     }
 
+    const handlePlayAgain = () =>{
+        randomPairs.sort(() => Math.random() - 0.5);
+        setRandomPairs((randomPairs) =>
+            randomPairs.map((el, index) => {
+                return {...el, showImage: false, match: false}
+            })
+        );
+
+        numberMoves = 0;
+    }
+
     const lastNumberImageElement = randomPairs[id].numberId
+    const pairsMatch = randomPairs.filter(
+        (pair) => pair.match).length;
+
+    debugger
 
     const shownImageCount = randomPairs.filter(
         (pair) => pair.showImage && !pair.match).length;
 
-
     // Если количество кликов равно двум
     if (shownImageCount === 2) {
+
+        numberMoves = numberMoves + 1;
 
         const countMatches = randomPairs.filter(
             (pair) => pair.showImage && (pair.numberId === lastNumberImageElement) && !pair.match).length;
@@ -111,7 +132,7 @@ export const App = () => {
                     <div className="moves-made">
                         <h2>СДЕЛАНО</h2>
                         <h2>ХОДОВ</h2>
-                        <h2 className="count_moves-made">28</h2>
+                        <h2 className="count_moves-made">{numberMoves}</h2>
                     </div>
                     <div className="container">
                         {
@@ -121,6 +142,7 @@ export const App = () => {
                                     id={index}
                                     image={randomPairs[index].image}
                                     showImage={randomPairs[index].showImage}
+                                    match={randomPairs[index].match}
                                     onClickSquare={() => onClickSquare(index)}
                                 />
                             ))
@@ -129,9 +151,34 @@ export const App = () => {
                     <div className="still-attempts">
                         <h2>ОСТАЛОСЬ</h2>
                         <h2>ПОПЫТОК</h2>
-                        <h2 className="count_moves-made">12</h2>
+                        <h2 className="count_moves-made">{40 - numberMoves}</h2>
                     </div>
                 </div>
+                <ReactModal
+                        isOpen={pairsMatch === 16 || numberMoves === 40}
+                        // onRequestClose={/* функция, которая вызывается при закрытии модального окна */}
+                        // shouldCloseOnOverlayClick={/* true, если вы хотите закрывать окно при клике на оверлей */}
+                        // другие свойства по желанию
+                        style={{
+                            content: {
+                                width: '689px',
+                                height: '372px',
+                                margin: 'auto', // Центрируем модальное окно по центру экрана
+                                padding: '0',
+                            },
+                            overlay: {
+                                background: 'rgba(0, 0, 0, 0.5)', // Задаем прозрачный оверлей
+                            },
+                        }}
+                    >
+                    <div className="message-form">
+                        <p className="message-text-first">{numberMoves ===40 ? "УВЫ, ВЫ ПРОИГРАЛИ" : "УРА, ВЫ ВЫИГРАЛИ!"}</p>
+                        <p className="message-text-second">{pairsMatch ===16 ? `ЭТО ЗАНЯЛО ${numberMoves} ХОДОВ` : "У ВАС КОНЧИЛИСЬ ХОДЫ"}</p>
+                        <button className="play-again-button" onClick={handlePlayAgain}>
+                            ИГРАТЬ ЕЩЕ
+                        </button>
+                    </div>
+                </ReactModal>
             </div>
         </React.Fragment>
     )
